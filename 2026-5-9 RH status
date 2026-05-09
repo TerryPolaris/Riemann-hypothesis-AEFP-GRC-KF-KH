@@ -1,0 +1,35 @@
+C0:
+  ξ-native object G_ξ
+
+C1:
+  protected zero-principal-part Li sector
+
+C2:
+  reciprocal-pair principal-part form K_rec
+
+C3:
+  Hermitianized LiGram K_PP
+
+C4:
+  ProtectedShortedWeil positivity gives K_PP PSD
+
+C5:
+  FiniteGramTheorem says off-circle blocks create local negative directions
+
+C6:
+  LiPacketIsolation exposes finite defects
+
+C7:
+  GlobalShieldClosure prevents tail/local hiding
+
+C8:
+  therefore no off-circle q
+
+C9:
+  |z_ρ|=1
+
+C10:
+  Re(ρ)=1/2
+
+C11:
+  RH
