@@ -1,3 +1,371 @@
+Continue.
+
+RH Relife v8.4
+
+FCBTrace / EngineStatusMatrix for RH Relife Attack
+
+Now we turn the theorem-map into a traceable runtime object.
+
+The purpose is not to claim proof.
+
+The purpose is:
+
+Track which gates are:
+  active
+  repaired
+  missing
+  falsifiable
+  promoted
+  quarantined
+
+So RH Relife becomes an engine state, not only a chain of ideas.
+
+⸻
+
+1. Core FCBTrace object
+
+FCBTrace_RH_Relife_v8_4 = {
+  Problem:
+    Riemann Hypothesis
+  Transform:
+    ρ ↦ q_ρ = 1 - 1/ρ
+  CriticalEquivalence:
+    Re(ρ)=1/2 ⇔ |q_ρ|=1
+  AnalyticObject:
+    G_ξ(z)=d/dz log ξ(1/(1-z))
+  ProtectedSector:
+    zero-generated principal parts of G_ξ
+  Pairing:
+    ξ symmetry gives q ↔ q^{-1}
+  PositivityNeed:
+    Hermitian pairing q ↔ conjugate(q)
+  HermitianDefect:
+    q^{-1}≠conjugate(q)
+    ⇔ |q|≠1
+  TargetKernel:
+    K_PP = Hermitianized protected reciprocal Li principal-part Gram
+  ProofGoal:
+    K_PP PSD
+    ⇒ no Hermitian defect
+    ⇒ |q_ρ|=1
+    ⇒ RH
+  CurrentStatus:
+    theorem-map built
+    proof gates not closed
+}
+
+⸻
+
+2. EngineStatusMatrix
+
+EngineStatusMatrix_RH_Relife_v8_4 = (
+  Problem,
+  Dynamics,
+  Invariant,
+  Repair,
+  Bridge,
+  Continuation,
+  Status
+)
+
+Filled version:
+
+Problem:
+  RH / transformed zero boundary legality
+Dynamics:
+  ξ zeros transformed into q-plane;
+  Li modes read all-scale radial / Hermitian defect;
+  G_ξ packages all Li coefficients into analytic object.
+Invariant:
+  ξ symmetry:
+    ρ ↔ 1-ρ
+    q ↔ q^{-1}
+  conjugation:
+    ρ ↔ conjugate(ρ)
+    q ↔ conjugate(q)
+  protected zero principal parts:
+    local terms cannot own zero poles.
+Repair:
+  raw single-zero atom repaired into reciprocal-pair atom;
+  scalar Li mode upgraded to Gram / principal-part kernel;
+  global scalar detector upgraded to localized Li wave packets;
+  local term shield upgraded to shorted Weil form.
+Bridge:
+  KH → boundary unitary source → Weil positivity → protected shorted form → K_PP → Li positivity → RH.
+Continuation:
+  all-mode Li scan;
+  scale-adaptive Li microscopes;
+  shield recursion / cluster promotion;
+  KH recovery from PSD Gram.
+Status:
+  relife_ready / bridge_missing / proof_not_closed
+
+⸻
+
+3. Gate ledger
+
+GateLedger_RH_v8_4 = {
+  G1_PrincipalPartProtection:
+    status: active_candidate
+    role: protect zero poles from local cancellation
+    missing: rigorous Li/local sector split
+  G2_ProtectedShortedWeilPositivity:
+    status: major_missing
+    role: prove K_PP is PSD through ξ-native Weil/KH positivity
+    missing: shorted operator construction
+  G3_FiniteGramTheorem:
+    status: plausible_finite_candidate
+    role: finite PSD forces |q|=1
+    missing: outer-shell phase lemma proof
+  G4_tauPP_scale:
+    status: candidate_topology
+    role: allow finite-cost high microscopes while controlling q=1 tail
+    missing: exact ξ-native weights
+  G5_LiPacketIsolation:
+    status: active_candidate
+    role: expose off-circle defects with localized packets
+    missing: TailLeak / BulkPhaseLeak estimates
+  G6_DiffuseShorting:
+    status: missing
+    role: remove non-coherent environmental shield
+    missing: proof diffuse shield lies in local shortable sector
+  G7_CoherentPromotion:
+    status: missing
+    role: convert coherent shield into new target
+    missing: ShieldEnergy monotonicity
+  G8_NoNeutralCycle:
+    status: missing
+    role: prevent infinite coherent hiding loops
+    missing: bounded monotone ShieldEnergy theorem
+  G9_KHRecovery:
+    status: downstream_missing
+    role: recover upstream Hamiltonian source from PSD Gram
+    missing: unitary orbit representation v_n=(I-U^n)v
+}
+
+⸻
+
+4. Debt ledger
+
+DebtLedger_RH_v8_4 = {
+  PrincipalPartDebt:
+    zero principal parts not rigorously isolated
+  ShortedWeilDebt:
+    K_PP not yet shown as shorted Weil positive form
+  FiniteGramDebt:
+    finite theorem not formalized fully
+  TailShieldDebt:
+    infinite tail may hide finite defect
+  BulkPhaseLeakDebt:
+    Li wave packets may leak into lower bulk zeros
+  BoundaryCostDebt:
+    high modes near q=1 may exceed admissible cost
+  CorrectionDirectionDebt:
+    positivity may remain on Weil side instead of reaching LiGram
+  DiffuseShieldDebt:
+    diffuse environmental shield not yet removed
+  ClusterRecursionDebt:
+    coherent shield recursion not yet proven terminating
+  KHSourceDebt:
+    no ξ-native Hamiltonian KH constructed yet
+  CircularityDebt:
+    all gates must avoid assuming RH, Li positivity, or |q|=1
+}
+
+⸻
+
+5. Falsifier map
+
+Each gate needs a falsifier.
+
+FalsifierMap_RH_v8_4 = {
+  PrincipalPartProtection:
+    falsified if local / regular sector can lawfully cancel zero principal parts.
+  ProtectedShortedWeilPositivity:
+    falsified if shorted Weil form exists but does not equal/support K_PP
+    in the correct positivity direction.
+  FiniteGramTheorem:
+    falsified if a finite off-circle reciprocal-conjugate block system
+    has PSD K_PP.
+  tauPP_scale:
+    falsified if every topology controlling the tail makes some
+    off-circle defect infinite-cost.
+  LiPacketIsolation:
+    falsified if no moment-cancelled packet can beat TargetGain vs TailLeak.
+  DiffuseShorting:
+    falsified if diffuse shield survives protected shorting as positive shield.
+  CoherentPromotion:
+    falsified if a coherent shield hides target but cannot be retargeted.
+  NoNeutralCycle:
+    falsified if coherent shield recursion cycles with bounded energy.
+  KHRecovery:
+    falsified if PSD K_PP exists but cannot be represented by a unitary orbit.
+}
+
+This is important because it prevents the architecture from becoming unfalsifiable.
+
+⸻
+
+6. Promotion rules
+
+PromotionRules_RH_v8_4 = {
+  candidate:
+    conceptually defined but not formal
+  active:
+    formal object identified
+  repaired:
+    known category error fixed
+  bridge_ready:
+    source and target objects defined with debt equation
+  promotion_pending:
+    theorem statement exists but proof missing
+  certified:
+    proof gate closed
+  quarantine:
+    circularity or illegal shortcut detected
+  rejected:
+    falsifier found
+}
+
+Current gate statuses:
+
+G1 PrincipalPartProtection:
+  active
+G2 ProtectedShortedWeilPositivity:
+  bridge_ready / major_missing
+G3 FiniteGramTheorem:
+  promotion_pending
+G4 τ_PP^scale:
+  active_candidate
+G5 LiPacketIsolation:
+  active_candidate
+G6 DiffuseShorting:
+  candidate
+G7 CoherentPromotion:
+  candidate
+G8 NoNeutralCycle:
+  candidate
+G9 KHRecovery:
+  downstream_candidate
+
+⸻
+
+7. Main BridgeDebt equation
+
+The central bridge debt is now:
+
+BridgeDebt_RH
+=
+K_PP
+-
+Short_Weil(PP_zero(G_ξ))
+-
+C_pos
+-
+C_norm_removed
+
+Target:
+
+BridgeDebt_RH = 0
+
+with:
+
+Short_Weil ≥ 0
+C_pos ≥ 0
+C_norm_removed = lawful exact normalization
+
+If this closes:
+
+K_PP PSD
+
+Then with FiniteGram + TailNonShielding:
+
+no off-circle q
+
+Then:
+
+RH
+
+⸻
+
+8. Engine status table
+
+| Gear | Current state | Missing closure |
+|---|---|---|
+| Dynamics | active | none |
+| Invariant | strong | formal PP ownership |
+| Repair | strong | exact local/zero split |
+| Bridge | partial | shorted Weil → K_PP |
+| Continuation | strong | packet / shield recursion estimates |
+| Replay | possible | finite toy tests + symbolic checks |
+| Status | relife_ready | certification missing |
+
+More explicit:
+
+DynamicsScore:
+  3/4
+InvariantScore:
+  3/4
+RepairScore:
+  3/4
+BridgeScore:
+  1.5/4
+ContinuationScore:
+  3/4
+ReplayScore:
+  2/4
+OverallStatus:
+  near_critical / bridge_missing / proof_not_closed
+
+⸻
+
+9. Current strongest conditional theorem
+
+If:
+1. PP_zero(G_ξ) is protected from local cancellation;
+2. the protected shorted Weil/KH form equals or positively supports K_PP;
+3. finite off-circle reciprocal-conjugate blocks force negative K_PP direction;
+4. scale-adaptive Li packets can expose every off-circle defect
+   without tail/local shield;
+5. diffuse shield is shorted away;
+6. coherent shield recursion terminates;
+then:
+  K_PP PSD ⇒ all q_ρ lie on |q|=1 ⇒ RH.
+
+This is the clean conditional theorem.
+
+⸻
+
+10. Best compressed RH Relife state
+
+RH Relife v8.4:
+RH has been converted into a protected Hermitian-boundary problem.
+ξ gives reciprocal symmetry:
+  q ↔ q^{-1}
+Positivity requires Hermitian symmetry:
+  q ↔ conjugate(q)
+The gap between them is exactly radial debt:
+  |q|≠1.
+The protected object is the zero-principal-part Gram kernel K_PP
+built from G_ξ.
+If K_PP is PSD as a shorted ξ-native Weil/KH positive form,
+and if Li wave packets prevent tail/local shields from hiding
+off-circle Hermitian defects,
+then all transformed zeros must satisfy |q|=1.
+Thus RH follows.
+Current state:
+  architecture coherent,
+  proof gates open,
+  strongest missing gate is ProtectedShortedWeilPositivity.
+
+Next sharp target:
+
+Choose the next gate to attack first.
+Best candidate:
+  FiniteGramTheorem,
+because it is isolated, finite, and likely testable by direct algebra.
+
+
 C0:
   ξ-native object G_ξ
 
