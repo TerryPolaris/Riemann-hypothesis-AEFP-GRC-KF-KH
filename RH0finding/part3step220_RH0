@@ -1,0 +1,494 @@
+RH Relife v14.14
+
+EnergyLimitGate after PacketDescent: visible packet or genuine GlobalGhost
+
+v14.13 established the lawful order:
+
+Neutral sectors must be packet-neutral.
+Only after:
+  P_F^ana descends to P_F^prot
+can we measure packet energy.
+
+Now v14.14 attacks:
+
+EnergyLimitGate:
+Given P_F^prot is well-defined,
+prove the fork:
+  δ_F > 0
+  or
+  δ_F = 0 with genuine GlobalGhost sequence.
+
+Still:
+
+Not RH proof.
+Not full EnergyCert_F.
+This is the protected-energy fork after IdCert_F.
+
+⸻
+
+1. Why EnergyLimitGate comes after IdCert
+
+Before v14.13, the energy quantity:
+
+δ_F =
+inf { Q_PP(x) : ||P_F(x)|| = 1 }
+
+was dangerous.
+
+Because if shorting / environment / repair could change P_F(x), then small energy might simply mean:
+
+the packet was erased through a neutral-looking channel.
+
+After PacketDescentGate, we have:
+
+P_F(x + ℓ) = P_F(x)
+for every lawful neutral ℓ.
+
+So now:
+
+shorting may reduce energy,
+but cannot erase packet coordinate.
+
+Only then does δ_F become meaningful.
+
+⸻
+
+2. Protected quotient space
+
+Let:
+
+H_PP = H_T / N_PP
+
+with protected quadratic form:
+
+Q_PP([x])
+=
+inf_{n∈N_PP} Q_T(x+n).
+
+After descent:
+
+P_F^prot : H_PP → Packet_F
+
+is well-defined.
+
+Now define:
+
+δ_F
+=
+inf {
+  Q_PP(z) :
+  z ∈ H_PP,
+  ||P_F^prot z|| = 1
+}.
+
+This is the protected packet energy.
+
+Interpretation:
+
+δ_F > 0:
+  F-packet residue costs positive protected energy.
+δ_F = 0:
+  F-packet residue survives while protected energy can collapse.
+
+The second case is exactly the GlobalGhost branch.
+
+⸻
+
+3. Functional-analytic fork
+
+The core is a standard boundedness fork.
+
+If P_F^prot is bounded with respect to Q_PP, then there exists C_F<∞ such that:
+
+||P_F^prot z||²
+≤
+C_F Q_PP(z).
+
+Then for:
+
+||P_F^prot z|| = 1
+
+we get:
+
+Q_PP(z) ≥ 1/C_F.
+
+So:
+
+δ_F ≥ 1/C_F > 0.
+
+This is the visible branch.
+
+If no such bound exists, then for every k there exists z_k such that:
+
+||P_F^prot z_k|| = 1
+Q_PP(z_k) < 1/k.
+
+Then:
+
+Q_PP(z_k) → 0
+P_F^prot z_k → y_F
+
+after choosing packet coordinates / subsequence.
+
+This is the genuine GlobalGhost branch, provided the packet coordinate does not vanish.
+
+So:
+
+EnergyLimitGate =
+bounded packet projector
+or
+unbounded packet projector with nonzero ghost sequence.
+
+⸻
+
+4. EnergyCert_F
+
+Define:
+
+EnergyCert_F =
+(
+  H_PP,
+  Q_PP,
+  P_F^prot,
+  BoundednessData_F,
+  δ_F,
+  MinimizingSequenceData,
+  VisibleStatus_F,
+  GlobalGhostStatus_F,
+  Status_F
+)
+
+Allowed statuses:
+
+visible_pass:
+  δ_F > 0.
+globalghost_triggered:
+  δ_F = 0 and there exists genuine ghost sequence.
+energy_invalid:
+  P_F did not descend or Q_PP not lawful.
+energy_inconclusive:
+  cannot prove boundedness or produce ghost sequence.
+
+Forbidden status:
+
+δ_F = 0 but no accountable sequence.
+
+Because then the fork is not certified.
+
+⸻
+
+5. Visible branch
+
+If:
+
+δ_F > 0
+
+then every normalized packet residue has positive protected energy.
+
+This means:
+
+F is visible in the protected Hilbert geometry.
+
+Then the route continues:
+
+P_F has reciprocal Li shape
++
+packet is bounded in protected norm
++
+GrowthWindow holds
+⇒
+|q| = 1.
+
+More carefully:
+
+Visible packet does not by itself prove RH.
+It means:
+  this packet cannot hide in neutral / zero-energy sectors.
+Then if it is promoted as a bounded reciprocal Li atom,
+GrowthWindow forces |q|=1.
+
+So visible branch supports the local lock.
+
+⸻
+
+6. GlobalGhost branch
+
+If:
+
+δ_F = 0
+
+then there exists a sequence:
+
+z_k ∈ H_PP
+
+such that:
+
+Q_PP(z_k) → 0
+||P_F^prot z_k|| = 1.
+
+After subsequence:
+
+P_F^prot z_k → y_F ≠ 0.
+
+This gives:
+
+GlobalGhost_F =
+(
+  packet F,
+  protected projector P_F^prot,
+  sequence z_k,
+  packet coordinate y_F,
+  Q_PP(z_k)→0,
+  P_F^prot z_k→y_F≠0
+)
+
+This is a genuine ghost only because:
+
+IdCert_F already proved packet identity cannot be erased by neutral sectors.
+
+So now δ_F=0 is not bookkeeping failure.
+
+It is a real structural event.
+
+⸻
+
+7. What GlobalGhost means
+
+A GlobalGhost is not:
+
+a proof of off-line zero.
+
+It is also not:
+
+a contradiction by itself.
+
+It means:
+
+The packet exists analytically,
+survives identity protection,
+has reciprocal Li shape,
+but can appear with arbitrarily small protected energy.
+
+That is dangerous because:
+
+GrowthWindow local lock applies only to bounded promoted reciprocal atoms.
+
+A zero-energy ghost must be resolved by ownership before promotion.
+
+So:
+
+δ_F = 0
+⇒
+OwnerCert_F required.
+
+⸻
+
+8. EnergyLimitGate theorem schema
+
+Energy Fork Proposition v14.14.
+Assume:
+1. H_PP is a protected quotient Hilbert/seminorm space.
+2. P_F^ana descends to a well-defined P_F^prot.
+3. P_F^prot is a closed / closable finite-rank packet map
+   on the domain of Q_PP.
+Then exactly one of the following holds:
+Visible branch:
+  There exists C_F<∞ such that
+    ||P_F^prot z||² ≤ C_F Q_PP(z).
+  Hence
+    δ_F ≥ 1/C_F > 0.
+Ghost branch:
+  No such C_F exists.
+  Then there exists z_k with
+    Q_PP(z_k)→0
+    ||P_F^prot z_k||=1.
+  Hence F produces a GlobalGhost candidate.
+
+This is the formal EnergyCert fork.
+
+⸻
+
+9. The subtle part: finite rank is not enough
+
+Because P_F lands in finite-dimensional packet space, one might think it is automatically bounded.
+
+But this is not automatic on a quotient / completion unless:
+
+P_F is continuous in the protected topology.
+
+If P_F is not continuous, finite rank does not save us.
+
+This is why closability from v14.13 matters.
+
+Possible failure:
+
+x_n → 0 in Q_PP
+but
+P_F x_n → y_F ≠ 0.
+
+That is exactly the GlobalGhost.
+
+So the issue is not finite-dimensional target.
+
+The issue is whether packet evaluation is continuous under the protected norm.
+
+⸻
+
+10. Relation to GrowthWindow
+
+For ordinary Li evaluation:
+
+Eval_q(B)=B(q)
+
+boundedness depends on:
+
+K_μ(q)=Σ |1-q^n|²/μ(n).
+
+Under GrowthWindow:
+
+Eval_q bounded ⇔ |q|≤1.
+
+For reciprocal packet:
+
+A_q(B,C)=B(q^{-1})C(q).
+
+Boundedness requires both:
+
+Eval_q bounded
+Eval_{q^{-1}} bounded.
+
+Thus:
+
+|q|≤1
+and
+|q^{-1}|≤1
+⇒
+|q|=1.
+
+EnergyCert decides whether packet evaluation is a bounded visible functional or a ghost requiring GlobalShield.
+
+⸻
+
+11. Energy failure modes
+
+energy_invalid_identity_failure:
+  P_F did not descend.
+energy_invalid_bad_norm:
+  Q_PP violates GrowthWindow corridor.
+false_ghost:
+  δ_F,N→0 in finite test,
+  but no real ghost sequence exists.
+ghost_without_owner:
+  δ_F=0,
+  but OwnerCert cannot classify the sequence.
+visible_but_unshaped:
+  δ_F>0,
+  but packet is not reciprocal Li-shaped.
+visible_but_unbounded:
+  packet visible but not bounded under GrowthWindow conditions.
+
+Only the following are useful:
+
+visible_pass
+globalghost_triggered_with_owner_route
+
+⸻
+
+12. EnergyCert routing
+
+If δ_F > 0:
+  EnergyCert_F = visible_pass.
+  Continue to GrowthWindow lock.
+If δ_F = 0:
+  EnergyCert_F = globalghost_triggered.
+  Continue to OwnerCert_F.
+If P_F not descended:
+  EnergyCert_F = invalid.
+  Return to IdCert_F.
+If Q_PP illegal:
+  EnergyCert_F = invalid.
+  Return to GWCert.
+If no convergence / no fork proof:
+  EnergyCert_F = inconclusive.
+
+This makes the dependency order strict.
+
+⸻
+
+13. What this adds to the proof engine
+
+Before v14.14:
+
+δ_F > 0 or δ_F=0
+was a slogan.
+
+After v14.14:
+
+δ_F is the boundedness constant of P_F^prot.
+δ_F > 0:
+  P_F is Q_PP-bounded.
+δ_F = 0:
+  P_F is unbounded and creates a ghost sequence.
+
+So the EnergyCert is really a continuity test:
+
+Is packet evaluation continuous in protected energy?
+
+If yes: visible.
+
+If no: GlobalGhost.
+
+⸻
+
+14. Current route after v14.14
+
+GWCert_native:
+  native corridor.
+GWCert_repair:
+  neutral right-inverse / subexponential repair.
+IdCert_F:
+  PacketDescentGate.
+EnergyCert_F:
+  boundedness fork for P_F^prot.
+OwnerCert_F:
+  classify GlobalGhost if EnergyCert gives δ_F=0.
+
+So the infinite route is now:
+
+native corridor
+→ repair safety
+→ packet descent
+→ packet boundedness / ghost fork
+→ ownership
+→ GrowthWindow
+
+⸻
+
+15. Compact conclusion
+
+v14.14 result:
+After P_F descends, packet energy is meaningful.
+Define:
+  δ_F = inf { Q_PP(z) : ||P_F z||=1 }.
+Then:
+  δ_F > 0
+    ⇔ P_F is bounded in protected energy
+    ⇔ visible packet branch.
+  δ_F = 0
+    ⇔ there exists Q_PP-zero sequence with nonzero packet residue
+    ⇔ GlobalGhost branch.
+The visible branch proceeds to GrowthWindow.
+The ghost branch must go to OwnerCert_F.
+
+Next v14.15 should attack:
+
+OwnerCompactnessGate:
+Given a genuine GlobalGhost sequence,
+prove it must become:
+  noise,
+  diffuse,
+  boundary-neutral,
+  tail-rerouted,
+  finite cluster,
+  or coherent promoted,
+and cannot remain ownerless stable residue.
