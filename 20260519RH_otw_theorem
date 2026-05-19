@@ -1,0 +1,892 @@
+# RH Alpha0 Hardy Locator Report v0.1
+Date: 2026-05-19
+Status: timestamp / research scaffold / numerical locator / proof-obligation map
+Repository target: GitHub timestamp commit
+Author status: independent research note
+
+IMPORTANT TRUTH BOUNDARY:
+This document does NOT claim a proof of the Riemann Hypothesis.
+This document records a candidate analysis framework, numerical locator pipeline,
+Lean-friendly finite theorem scaffold, and open proof obligations.
+
+Core rule:
+  candidate ≠ theorem
+  numerical support ≠ closure
+  alpha-zero locator ≠ RH proof
+  Hardy Z root refinement ≠ global no-off-ridge theorem
+  Lean skeleton ≠ RH theorem
+
+RH theorem target remains open:
+  ∀ρ, NontrivialZero(ζ,ρ) → Re(ρ)=1/2
+
+This report only prepares:
+  1. alpha=0 coordinate
+  2. theta midpoint zero locator
+  3. Hardy Z refinement pipeline
+  4. xi symmetric curvature check
+  5. finite-window certificate direction
+  6. Lean structural theorem scaffold
+  7. open obligations for global RH closure
+
+
+============================================================
+0. Executive Summary
+============================================================
+
+We tested an alpha=0 lens for RH-like nontrivial zeros.
+
+Define:
+  ρ = β + iγ
+  α = Re(ρ) - 1/2 = β - 1/2
+
+Then:
+  α = 0       critical line / candidate closure ridge
+  α ≠ 0       off-ridge candidate / debt generator
+
+The useful numerical locator is not simply:
+
+  N_sm(T) = n
+
+but the half-jump / theta-midpoint correction:
+
+  θ(T)/π = n - 3/2
+
+where θ is the Riemann-Siegel theta function.
+
+Observed pattern:
+  N_sm(T)=n has step-right-end bias.
+  θ midpoint removes most of this bias.
+  Remaining error appears as local phase/S(T)-type debt.
+  Hardy Z(t) root refinement can then locate the zero precisely.
+
+Engineering reading:
+  α=0 locks the horizontal coordinate.
+  θ midpoint aligns the vertical phase.
+  Hardy Z(t) refines the root.
+  ξ symmetry checks whether the basin is centered at α=0.
+  Turing/window count is required to exclude missing off-ridge zeros in a finite window.
+
+The method is a zero locator and certificate pipeline,
+not a proof of RH.
+
+
+============================================================
+1. Background Runtime Frame
+============================================================
+
+Runtime modules used:
+
+  RH-like Alpha Layer:
+    α = Re(ρ) - 1/2
+    α=0 is the candidate critical ridge.
+    α≠0 is off-ridge debt.
+
+  Alpha-OffRidge-GRC Engine:
+    α gives the deviation direction.
+    off-ridge gives the debt source.
+    GRC χ decides whether the candidate dissipates, enters a critical probe zone,
+    or becomes an attractor / false-closure risk.
+
+  Optical Atlas:
+    Multiple lenses must agree:
+      ζ-frame
+      ξ-frame
+      Hardy Z-frame
+      θ/N(T)-frame
+      prime-side π(x)-Li(x) or ψ(x)-x frame
+      Lean/formal frame
+
+  Proof Machine:
+    Analysis output is evidence only.
+    Theorem-grade claims require exact definitions, quantifiers, assumptions,
+    falsifiers, and formal verification.
+
+  FCBTrace:
+    Records frame, closure, basin, debt, unknowns, and replay path.
+    Prevents numerical/lens outputs from jumping directly to theorem.
+
+  Forge Loop:
+    When blocked, generate new tools, lenses, metrics, falsifiers,
+    or Lean skeletons, then send them back through FCBTrace and ProofMachine.
+
+Safety:
+  No lens alone may promote to theorem.
+  No numerical test may promote to theorem.
+  No χ score may certify truth.
+  Lean/formal court may only certify exact statements it actually proves.
+
+
+============================================================
+2. Core RH Alpha Coordinate
+============================================================
+
+Definition:
+
+  ρ = β + iγ
+  α(ρ) = Re(ρ) - 1/2 = β - 1/2
+
+States:
+
+  ridge:
+    α = 0
+    Re(ρ)=1/2
+    candidate critical-line closure
+
+  off_ridge:
+    α ≠ 0
+    Re(ρ)≠1/2
+    possible off-ridge zero candidate
+    must generate debt or contradiction
+
+Debt approximation:
+
+  D_perp(α;U)
+    = 1/(2U) ∫_0^U [
+        (exp(αu)-1)^2 + (exp(-αu)-1)^2
+      ] du
+
+Small-alpha approximation:
+
+  D_perp(α;U) ≈ (U^2/3) α^2
+
+Formal small theorem target:
+
+  α≠0 and U≠0 ⇒ D_quad(α,U)>0
+
+where:
+
+  D_quad(α,U) = (U^2/3) α^2
+
+Important:
+  D_quad positivity is not RH.
+  It only formalizes local normal-deviation debt.
+
+
+============================================================
+3. Corrected Off-Ridge Interpretation
+============================================================
+
+Incorrect off-ridge test:
+
+  Pick arbitrary α≠0 and arbitrary t.
+  Check ζ(1/2+α+it).
+
+This is too weak, because almost all arbitrary points are not zeros.
+
+Correct off-ridge object:
+
+  off-ridge zero candidate:
+    ζ(1/2+α+iγ)=0
+    α≠0
+    0<Re(s)<1
+
+Finite-window closure test:
+
+  N_total(T) = total zeros in critical strip up to height T
+  N_line(T)  = zeros captured on critical line up to height T
+  OffCount(T)=N_total(T)-N_line(T)
+
+Finite-window off-ridge closure:
+
+  OffCount(T)=0
+
+Global RH target:
+
+  ∀T, OffCount(T)=0
+
+or equivalently:
+
+  ¬∃ρ,
+    ζ(ρ)=0
+    0<Re(ρ)<1
+    Re(ρ)≠1/2
+
+
+============================================================
+4. Zero Locator: From N_sm to θ Midpoint
+============================================================
+
+Smooth zero-counting approximation:
+
+  N_sm(T) =
+    T/(2π) log(T/(2π)) - T/(2π) + 7/8
+
+Naive locator:
+
+  solve N_sm(T)=n
+
+Observed issue:
+  This tends to place the guess near the step right-end,
+  often producing a positive height bias.
+
+Corrected locator:
+
+  solve θ(T)/π = n - 3/2
+
+Interpretation:
+  The zero is closer to the middle of a counting jump,
+  not the right edge of the continuous counting approximation.
+
+Pipeline:
+
+  Input:
+    n
+
+  Step 1:
+    T0 = solve θ(T0)/π = n - 3/2
+
+  Step 2:
+    Δ = 2π / log(T0/(2π))
+
+  Step 3:
+    Search bracket:
+      [T0 - 2Δ, T0 + 2Δ]
+
+  Step 4:
+    Use Hardy Z(t) to find sign change/root.
+
+  Step 5:
+    Refine root:
+      bisection / secant / Newton
+
+  Step 6:
+    Verify ξ-symmetry:
+      R(α,t)=|ξ(1/2+α+it)|^2
+
+  Step 7:
+    If doing finite-window verification:
+      compare N_total and N_line.
+
+
+============================================================
+5. Hardy Z and ξ Symmetry
+============================================================
+
+Hardy Z:
+
+  Z(t) = exp(i θ(t)) ζ(1/2 + it)
+
+For real t:
+  Z(t) is real.
+
+Critical-line zeros:
+  Z(γ_n)=0
+
+Therefore:
+  θ midpoint gives a near root.
+  Hardy Z refinement locates the actual γ_n.
+
+ξ symmetric residual:
+
+  ξ(s) = 1/2 s(s-1) π^(-s/2) Γ(s/2) ζ(s)
+
+Use:
+
+  R(α,t) = |ξ(1/2 + α + it)|^2
+
+For a critical-line zero:
+
+  R(α,γ_n) ≈ A_n α^2 + B_n α^4 + ...
+  centered single-well at α=0
+
+For a hypothetical off-ridge pair:
+
+  zeros at α=+α0 and α=-α0
+  R(α,t) shows split double-well
+
+Classification:
+
+  centered_single_well:
+    supports critical-line zero shape
+
+  split_double_well_candidate:
+    possible off-ridge pair pattern
+    requires high-risk audit
+
+  numerical_unstable:
+    precision insufficient
+
+
+============================================================
+6. Numerical Pattern Snapshot
+============================================================
+
+NOTE:
+The following values should be recomputed by repository scripts
+for reproducibility. They are included here as a timestamped
+conversation snapshot.
+
+Naive N_sm=n vs θ-midpoint pattern:
+
+  n              actual γ_n              N_sm=n error       θ-midpoint error
+
+  10             49.7738324777           +1.960392371       +0.459421894
+  100            236.5242296658          +0.329031021       -0.537010935
+  1000           1419.4224809460         +0.674870542       +0.095278211
+  10000          9877.7826540055         +0.273799318       -0.153038086
+  100000000      42653549.7609515539     +0.212250905       +0.012540538
+
+Observed:
+
+  N_sm=n:
+    usually biased high due to step/right-end effect.
+
+  θ midpoint:
+    often much closer.
+    error oscillates around zero.
+    remaining error behaves like S(T) / local phase debt.
+
+For n=100000000:
+
+  θ-midpoint guess:
+    γ_guess ≈ 42653549.77349209199
+
+  actual snapshot:
+    γ_actual ≈ 42653549.76095155390
+
+  error:
+    ≈ +0.01254053809
+
+  average spacing near this height:
+    ≈ 2π / log(T/(2π))
+    ≈ 0.399420734
+
+  error as spacing fraction:
+    ≈ 0.0314
+
+Interpretation:
+  θ midpoint places the 100 millionth zero within about 3.1%
+  of one average spacing, before Hardy Z refinement.
+
+Important:
+  This is a zero-locator result.
+  This is not RH proof.
+
+
+============================================================
+7. Prime-Side Shadow: Li(x), π(x), ψ(x)
+============================================================
+
+Distinguish:
+
+  π:
+    circle constant in zero density / phase formulas
+
+  π(x):
+    prime-counting function
+
+  Li(x):
+    logarithmic integral, smooth baseline for π(x)
+
+Prime-side lens:
+
+  π(x) - Li(x)
+
+or cleaner:
+
+  ψ(x) - x
+
+where:
+
+  ψ(x) = Σ_{n≤x} Λ(n)
+
+Riemann explicit-formula reading:
+
+  ψ(x)-x ≈ -Σ_ρ x^ρ / ρ
+
+Let:
+
+  x = e^u
+
+If RH zero:
+
+  ρ = 1/2 + iγ
+
+then:
+
+  x^ρ = e^{u/2} e^{iγu}
+
+Normalize:
+
+  Eψ(u) = e^{-u/2}(ψ(e^u)-e^u)
+
+Then:
+
+  Eψ(u) contains waves with log-frequency γ.
+
+Therefore:
+
+  zero-side:
+    θ midpoint predicts γ_n
+
+  prime-side:
+    ψ(x)-x or π(x)-Li(x) contains γ_n as a frequency shadow
+
+Use prime-side lens as:
+  cross-lens verification,
+not as primary locator.
+
+Matched-filter sketch:
+
+  M(γ) = |∫ Eψ(u) exp(-iγu) w(u) du|
+
+Accept candidate frequency if:
+  γ near θ-midpoint
+  Z(t) root exists near γ
+  ξ basin is centered
+  prime-side frequency shadow is compatible
+
+
+============================================================
+8. Codex Engineering Task
+============================================================
+
+Project name:
+
+  RH Alpha0 Hardy Locator v0.1
+
+Goal:
+
+  Implement:
+    alpha lock
+    theta midpoint predictor
+    Hardy Z refinement
+    ξ symmetric curvature check
+    finite-window certificate scaffold
+    Lean structural theorem scaffold
+
+Truth boundary:
+
+  Do not claim RH proof.
+  Produce numerical evidence, finite certificates,
+  and formal structural lemmas only.
+
+Suggested repo tree:
+
+  experiments/
+    rh_alpha_hardy_locator.py
+    rh_alpha_xi_curvature.py
+    rh_alpha_remote_projector.py
+    rh_alpha_report.py
+
+  docs/
+    rh_alpha_hardy_locator/
+      RHAlphaHardyLocatorReport.md
+      results.csv
+      certificates.json
+      README.md
+
+  lean/
+    RHAlphaCore.lean
+    RHWindowGate.lean
+    RHCertificate.lean
+
+Python requirements:
+
+  Use mpmath with high precision.
+
+Functions:
+
+  theta(t):
+    return mpmath.siegeltheta(t)
+
+  hardyZ(t):
+    return mpmath.siegelz(t)
+
+  theta_midpoint_guess(n):
+    solve theta(T)/pi = n - 3/2
+
+  avg_spacing(T):
+    return 2*pi / log(T/(2*pi))
+
+  bracket_root(n):
+    T0 = theta_midpoint_guess(n)
+    Δ = avg_spacing(T0)
+    search [T0-2Δ, T0+2Δ]
+    find sign change of hardyZ
+
+  refine_root(bracket):
+    use bisection/secant/Newton on hardyZ
+
+  xi(s):
+    return 1/2*s*(s-1)*pi^(-s/2)*gamma(s/2)*zeta(s)
+
+  xi_curvature_check(gamma, eps_list):
+    evaluate:
+      |xi(1/2+eps+i gamma)|
+      |xi(1/2-eps+i gamma)|
+    classify:
+      centered_single_well
+      split_double_well_candidate
+      numerical_unstable
+
+Test n:
+
+  required:
+    [10, 100, 1000, 10000]
+
+  optional:
+    [100000, 1000000, 100000000]
+
+CSV output columns:
+
+  n
+  theta_midpoint_guess
+  gamma_refined
+  known_gamma_if_available
+  theta_midpoint_error
+  Z_at_guess
+  Z_at_root
+  bracket_lo
+  bracket_hi
+  avg_spacing
+  error_as_spacing_fraction
+  xi_symmetry_eps_1e-4
+  xi_symmetry_eps_1e-5
+  basin_classification
+
+Report sections:
+
+  1. theta midpoint error pattern
+  2. Hardy Z correction gain
+  3. ξ +α/-α symmetry
+  4. centered single-well vs split double-well
+  5. finite-window status
+  6. open proof obligations
+
+
+============================================================
+9. Lean Structural Theorem Scaffold
+============================================================
+
+Lean target:
+  finite / structural / coordinate theorems only.
+
+Do NOT prove or name a theorem as RH proof.
+
+Allowed Lean theorems:
+
+  A. alpha(s)=0 iff Re(s)=1/2
+  B. Dquad(a,U)≥0
+  C. a≠0 and U≠0 implies Dquad(a,U)>0
+  D. If N_total=N_line, then OffCount=0
+  E. Certificate object accepts finite evidence as finite evidence
+
+Open obligation only:
+
+  RH_global_goal:
+    ∀ρ, NontrivialZero ζ ρ → ρ.re = 1/2
+
+This must remain unproved / documented, not stated as a closed theorem.
+
+
+Lean skeleton:
+
+```lean
+import Mathlib
+
+namespace RHOpticalAtlas
+
+noncomputable section
+open Classical
+
+/-- Alpha coordinate: distance from the critical line. -/
+def alpha (s : ℂ) : ℝ :=
+  s.re - (1 / 2 : ℝ)
+
+/-- Alpha is zero exactly on the critical line. -/
+theorem alpha_zero_iff_critical (s : ℂ) :
+    alpha s = 0 ↔ s.re = (1 / 2 : ℝ) := by
+  unfold alpha
+  constructor
+  · intro h
+    linarith
+  · intro h
+    linarith
+
+/-- A point explicitly placed on the critical line has alpha zero. -/
+theorem alpha_mk_critical (t : ℝ) :
+    alpha (Complex.mk (1 / 2 : ℝ) t) = 0 := by
+  simp [alpha]
+
+/-- Quadratic small-alpha debt approximation. -/
+def Dquad (a U : ℝ) : ℝ :=
+  (U ^ 2 / 3) * a ^ 2
+
+theorem Dquad_nonneg (a U : ℝ) :
+    0 ≤ Dquad a U := by
+  unfold Dquad
+  positivity
+
+theorem Dquad_pos {a U : ℝ} (ha : a ≠ 0) (hU : U ≠ 0) :
+    0 < Dquad a U := by
+  unfold Dquad
+  have hU2 : 0 < U ^ 2 := sq_pos_of_ne_zero hU
+  have ha2 : 0 < a ^ 2 := sq_pos_of_ne_zero ha
+  positivity
+
+theorem Dquad_eq_zero_iff {a U : ℝ} (hU : U ≠ 0) :
+    Dquad a U = 0 ↔ a = 0 := by
+  constructor
+  · intro h
+    by_contra ha
+    have hp : 0 < Dquad a U := Dquad_pos ha hU
+    linarith
+  · intro ha
+    simp [Dquad, ha]
+
+/-- Finite window count packet. -/
+structure WindowCounts where
+  total : Nat
+  line : Nat
+
+def OffCount (w : WindowCounts) : Nat :=
+  w.total - w.line
+
+theorem offCount_zero_of_eq (w : WindowCounts) (h : w.total = w.line) :
+    OffCount w = 0 := by
+  simp [OffCount, h]
+
+/-- A finite numerical certificate.
+This is evidence, not RH proof. -/
+structure FiniteZeroCertificate where
+  n : Nat
+  gamma : ℝ
+  bracket_lo : ℝ
+  bracket_hi : ℝ
+  root_on_critical_line : Prop
+  unique_root_in_bracket : Prop
+  xi_centered_single_well : Prop
+  window_counts_closed : Prop
+
+theorem certificate_accepts_alpha_zero
+    (c : FiniteZeroCertificate)
+    (hroot : c.root_on_critical_line) :
+    alpha (Complex.mk (1 / 2 : ℝ) c.gamma) = 0 := by
+  simp [alpha]
+
+theorem certificate_window_closed
+    (c : FiniteZeroCertificate)
+    (h : c.window_counts_closed) :
+    c.window_counts_closed := h
+
+end
+
+end RHOpticalAtlas
+```
+
+
+============================================================
+10. Proof Obligations
+============================================================
+
+Closed or finite-scaffold items:
+
+  O1:
+    alpha coordinate definition
+
+  O2:
+    alpha=0 iff critical line
+
+  O3:
+    Dquad positivity for local normal debt
+
+  O4:
+    finite count logic:
+      N_total=N_line ⇒ OffCount=0
+
+  O5:
+    numerical locator:
+      θ midpoint + Hardy Z refinement
+
+Still open:
+
+  RH-O1:
+    theorem-grade definition of nontrivial zero in Lean/mathlib context
+
+  RH-O2:
+    bridge ζ ↔ ξ ↔ Z ↔ N(T) ↔ π-Li / ψ-x
+
+  RH-O3:
+    tail control for infinite zeros
+
+  RH-O4:
+    ghost/cancellation exclusion
+
+  RH-O5:
+    window uniformity:
+      finite windows approximate global structure without hidden escape
+
+  RH-O6:
+    global no-off-ridge-zero theorem
+
+  RH-O7:
+    proof that every α≠0 zero candidate creates contradiction,
+    not merely local residual
+
+  RH-O8:
+    formalization of Turing-window verification,
+    if used as finite certificate
+
+  RH-O9:
+    no fake-minimum / no overlocalization theorem
+
+  RH-O10:
+    final formal export to Lean or equivalent proof assistant
+
+
+============================================================
+11. FCBTrace Packet Format
+============================================================
+
+Every experiment/candidate must export:
+
+  claim_id
+  source
+  frame
+  projection Π
+  constraint Γ
+  alpha_state
+  lens_used
+  gamma_candidate
+  theta_midpoint_guess
+  Hardy_Z_bracket
+  root_refinement_status
+  xi_symmetry_status
+  basin_classification
+  debt_terms
+  unknowns
+  falsifiers
+  replay_path
+  proof_machine_recommendation
+
+Debt terms:
+
+  D_alpha
+  D_tail
+  D_bridge
+  D_ghost
+  D_window
+  D_sidecross
+  D_overlocalization
+  D_phase
+  D_spacing
+  D_prime_shadow
+
+Halt if:
+
+  unknown symbol
+  missing frame
+  missing Π/Γ
+  missing bridge
+  missing tail control
+  unchecked ghost
+  false closure risk
+  theorem jump
+
+
+============================================================
+12. GitHub Timestamp Plan
+============================================================
+
+Suggested commit message:
+
+  timestamp: RH Alpha0 Hardy Locator v0.1 scaffold
+
+Suggested tag:
+
+  rh-alpha0-hardy-locator-v0.1-2026-05-19
+
+Suggested files:
+
+  README.md
+  docs/rh_alpha_hardy_locator/RHAlphaHardyLocatorReport.md
+  experiments/rh_alpha_hardy_locator.py
+  experiments/rh_alpha_xi_curvature.py
+  experiments/rh_alpha_remote_projector.py
+  lean/RHAlphaCore.lean
+  lean/RHWindowGate.lean
+  lean/RHCertificate.lean
+
+README warning:
+
+  This repository does not claim a proof of RH.
+  It records an alpha=0 locator framework, numerical experiments,
+  and finite/structural Lean scaffolds.
+  The global no-off-ridge theorem remains open.
+
+
+============================================================
+13. Minimal README Text
+============================================================
+
+# RH Alpha0 Hardy Locator v0.1
+
+This repository records a timestamped research scaffold for an RH-like
+alpha=0 locator framework.
+
+It combines:
+
+- alpha coordinate:
+  α = Re(ρ)-1/2
+
+- theta midpoint locator:
+  θ(T)/π = n - 3/2
+
+- Hardy Z root refinement
+
+- ξ symmetric curvature check
+
+- finite-window off-ridge count direction
+
+- Lean structural theorem scaffold
+
+This is NOT a proof of the Riemann Hypothesis.
+
+The project goal is to separate:
+
+1. numerical evidence
+2. finite certificates
+3. structural formal lemmas
+4. open global proof obligations
+
+The main open theorem remains:
+
+  ∀ρ, NontrivialZero(ζ,ρ) → Re(ρ)=1/2
+
+Current status:
+
+  alpha coordinate: scaffolded
+  theta midpoint locator: scaffolded
+  Hardy Z refinement: engineering target
+  xi curvature check: engineering target
+  Lean structural lemmas: scaffolded
+  global RH proof: open obligation
+
+
+============================================================
+14. Final Timestamp Statement
+============================================================
+
+This report timestamps the following candidate insight:
+
+  The RH alpha=0 locator becomes significantly sharper when the
+  vertical zero coordinate is guessed by the theta midpoint equation
+
+    θ(T)/π = n - 3/2
+
+  rather than the naive smooth counting equation
+
+    N_sm(T)=n.
+
+The alpha=0 lens fixes the normal coordinate.
+The theta midpoint fixes the phase midpoint.
+Hardy Z(t) then refines the root.
+ξ symmetry checks whether the local basin is centered at α=0.
+Finite-window count logic is required to exclude missed off-ridge zeros.
+
+This is a locator/certificate pipeline, not a proof of RH.
+
+Open global obligation:
+
+  prove no admissible off-ridge nontrivial zero exists.
