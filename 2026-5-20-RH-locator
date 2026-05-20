@@ -1,0 +1,277 @@
+# RH Non-Trivial Zeros Locator v0.1
+# Status: locator / numerical evidence / no proof yet for RH
+# Date: 2026-05-20
+#
+# Truth boundary:
+#   This is NOT a proof of the Riemann Hypothesis.
+#   This is a locator pipeline for known / candidate non-trivial zeros.
+#   Finite numerical agreement ≠ global no-off-ridge theorem.
+#
+# Core target:
+#   Locate the n-th non-trivial zero:
+#
+#     ρ_n = 1/2 + i γ_n
+#
+#   by:
+#     1. alpha lock:
+#          α = Re(ρ) - 1/2 = 0
+#
+#     2. theta midpoint locator:
+#          θ(T_0) / π = n - 3/2
+#
+#     3. Hardy Z refinement:
+#          Z(t) = exp(i θ(t)) ζ(1/2 + i t)
+#          find γ_n such that Z(γ_n)=0
+#
+#     4. xi local basin check:
+#          ξ(s) = 1/2 · s(s-1) · π^(-s/2) · Γ(s/2) · ζ(s)
+#          R(α,t)=|ξ(1/2+α+it)|²
+#
+#   Expected local shape at a critical-line zero:
+#
+#          R(α,γ_n) ≈ A_n α² + B_n α⁴ + ...
+#
+#   centered_single_well means:
+#
+#          R(+α,γ_n) = R(-α,γ_n)
+#          R(0,γ_n)=0
+#
+#   This supports the local α=0 locator.
+#   It does NOT prove RH.
+# ============================================================
+# LOCATOR EQUATIONS
+# ============================================================
+Non-trivial zero:
+  ζ(ρ)=0
+  0 < Re(ρ) < 1
+Alpha coordinate:
+  α(ρ) = Re(ρ) - 1/2
+Critical-line form:
+  α(ρ)=0
+  ρ_n = 1/2 + i γ_n
+Riemann-Siegel theta:
+  θ(t)
+    =
+    Im log Γ(1/4 + i t/2)
+    - (t/2) log π
+Hardy Z:
+  Z(t)
+    =
+    exp(i θ(t)) ζ(1/2 + i t)
+Root condition:
+  Z(γ_n)=0
+  ⇔ ζ(1/2+iγ_n)=0
+Naive smooth counting:
+  N_sm(T)
+    =
+    T/(2π) log(T/(2π))
+    - T/(2π)
+    + 7/8
+Naive locator:
+  N_sm(T)=n
+Corrected half-jump / theta midpoint locator:
+  θ(T_0)/π = n - 3/2
+Asymptotic half-jump locator for very high N:
+  N_sm(T_0)=n-1/2
+Average spacing:
+  Δ(T)
+    =
+    2π / log(T/(2π))
+Bracket:
+  I_n =
+    [T_0 - kΔ(T_0), T_0 + kΔ(T_0)]
+Hardy refinement:
+  find γ_n ∈ I_n such that:
+    Z(γ_n)=0
+Newton polish:
+  t_{m+1}
+    =
+    t_m - Z(t_m)/Z'(t_m)
+Secant polish:
+  t_{m+1}
+    =
+    t_m
+    - Z(t_m)(t_m-t_{m-1})
+      /(Z(t_m)-Z(t_{m-1}))
+Final localized zero:
+  ρ_n = 1/2 + iγ_n
+# ============================================================
+# RESULTS AGAINST KNOWN / COMPUTED ZERO POSITIONS
+# ============================================================
+#
+# Columns:
+#   k:
+#     exponent in n = 10^k
+#
+#   n:
+#     zero index
+#
+#   theta_midpoint_T0:
+#     direct locator from θ(T)/π = n - 3/2
+#
+#   known_or_refined_gamma:
+#     Hardy-refined / known γ_n position
+#
+#   midpoint_error:
+#     theta_midpoint_T0 - γ_n
+#
+#   error_as_spacing:
+#     midpoint_error / local_average_spacing
+#
+#   status:
+#     known-covered:
+#       within public first-zero database range, n ≤ 103,800,788,359
+#
+#     package-formal:
+#       currently belongs to the small formal certificate row family
+#       if added to results.csv/certificates.json
+#
+#     locator-only:
+#       locator estimate only; not claimed as checked against an actual known row here
+#
+# Notes:
+#   Current formal package rows mentioned earlier:
+#     n = 10, 100, 1000, 10000
+#
+#   n = 1 is added here as a locator benchmark row.
+#
+#   n = 10^12 and beyond:
+#     shown as locator-only estimates unless separately added
+#     from a trusted zero database / certificate source.
+# Known-data-covered locator rows
+k   n               theta_midpoint_T0          known_or_refined_gamma       midpoint_error      error_as_spacing     status
+0   1               14.517919628262            14.134725141735             +0.38319449         +0.04944591          known-covered
+1   10              50.233254372057            49.773832477672             +0.45942189         +0.15132853          known-covered / package-formal
+2   100             235.987218731142           236.524229665816            -0.53701093         -0.31009254          known-covered / package-formal
+3   1000            1419.517759156760          1419.422480945996           +0.09527821         +0.08219082          known-covered / package-formal
+4   10000           9877.629615919866          9877.782654005501           -0.15303809         -0.17926986          known-covered / package-formal
+5   100000          74920.891032588            74920.827498994             +0.06353359         +0.09491142          known-covered
+6   1000000         600269.63794841            600269.67701244             -0.03906404         -0.07129463          known-covered
+7   10000000        4992381.1105315            4992381.0140032             +0.09652834         +0.20871423          known-covered
+8   100000000       42653549.773492            42653549.760952             +0.01254054         +0.03139681          known-covered
+9   1000000000      371870204.0508             371870203.83703             +0.21376985         +0.60887325          known-covered
+10  10000000000     3293531632.2589            3293531632.3971             -0.13822467         -0.44168441          known-covered
+11  100000000000    29538618431.813            29538618431.613             +0.20016928         +0.70951076          known-covered
+# Hardy refinement performance snapshot
+#
+# Meaning:
+#   theta_midpoint_T0 gives a close phase guess.
+#   one Hardy/Newton polish often compresses the error strongly.
+#   final bracket/secant/root refinement gives γ_n to target precision.
+#
+# Below are representative rows.
+#
+# Columns:
+#   n
+#   theta_error
+#   one_step_hardy_error
+#   final_hardy_refined_error
+#
+# final_hardy_refined_error:
+#   zero to displayed precision when using the refined γ_n above.
+n        theta_error        one_step_hardy_error     final_hardy_refined_error
+1        +0.38319449        +0.00844332              ~0 to displayed precision
+10       +0.45942189        +0.01911508              ~0 to displayed precision
+100      -0.53701093        -0.03657793              ~0 to displayed precision
+1000     +0.09527821        +0.00067830              ~0 to displayed precision
+10000    -0.15303809        -0.00653982              ~0 to displayed precision
+100000   +0.06353359        +0.00221143              ~0 to displayed precision
+1000000  -0.03906404        +0.00010359              ~0 to displayed precision
+100000000 +0.01254054       -0.00027625              ~0 to displayed precision
+# ============================================================
+# LOCATOR-ONLY EXTENSION TO 35 ZERO-UNITS
+# ============================================================
+#
+# Here "zero-unit" means:
+#   n = 10^k
+#
+# These rows continue the direct locator scale from k=12 to k=35.
+#
+# IMPORTANT:
+#   These are locator estimates from the half-jump/asymptotic phase equation.
+#   They are NOT claimed here as checked against an actual known γ_n row.
+#   To promote any row into formal evidence:
+#     add it to results.csv
+#     add it to certificates.json
+#     include source / precision / bracket / Hardy Z refinement
+#     pass finite certificate gate
+#
+# Formula used for high-N locator-only rows:
+#
+#   N_sm(T_0) = n - 1/2
+#
+# where:
+#
+#   N_sm(T)
+#     =
+#     T/(2π) log(T/(2π))
+#     - T/(2π)
+#     + 7/8
+# Locator-only high-N rows
+k    n_alias    n = 10^k      locator_T0_estimate
+12   E12        10^12         267653395648.7455
+13   E13        10^13         2445999556030.225
+14   E14        10^14         22514484222485.85
+15   E15        10^15         208514052006405.4
+16   E16        10^16         1941393531395155.0
+17   E17        10^17         1.815944772005093e+16
+18   E18        10^18         1.705535838989901e+17
+19   E19        10^19         1.607634529722392e+18
+20   E20        10^20         1.520244011592075e+19
+21   E21        10^21         1.441768975095470e+20
+22   E22        10^22         1.370919909931995e+21
+23   E23        10^23         1.306643440879349e+22
+24   E24        10^24         1.248070825191456e+23
+25   E25        10^25         1.194479330178302e+24
+26   E26        10^26         1.145262891511396e+25
+27   E27        10^27         1.099909556157485e+26
+28   E28        10^28         1.057983951339985e+27
+29   E29        10^29         1.019113522386981e+28
+30   E30        10^30         9.829776286927442e+28
+31   E31        10^31         9.492988297545550e+29
+32   E32        10^32         9.178358656494989e+30
+33   E33        10^33         8.883779602962466e+31
+34   E34        10^34         8.607401660411461e+32
+35   E35        10^35         8.347595344340475e+33
+# ============================================================
+# INTERPRETATION
+# ============================================================
+Main observed pattern:
+  theta midpoint:
+    θ(T)/π = n - 3/2
+  gives a phase-centered guess for γ_n.
+For known rows:
+  The locator lands within a fraction of local average spacing.
+  Hardy Z refinement then collapses the remaining error to the actual root.
+For high rows:
+  The asymptotic half-jump equation provides a remote locator scale.
+  But high rows remain locator-only unless paired with:
+    - trusted actual zero data,
+    - Hardy Z bracket,
+    - root refinement,
+    - ξ centered-basin check,
+    - finite certificate export.
+Court boundary:
+  This report supports:
+    RH non-trivial zero locator pipeline.
+  This report does NOT prove:
+    RH,
+    global no-off-ridge-zero,
+    all non-trivial zeros lie on α=0,
+    tail control,
+    ghost exclusion,
+    global bridge theorem.
+Current correct statement:
+  RH Non-Trivial Zeros Locator:
+    no proof yet for RH.
+  Finite evidence:
+    useful.
+  Global theorem:
+    still open.
+# Suggested GitHub title
+RH Non-Trivial Zeros Locator v0.1
+No proof yet for RH
+# Suggested commit message
+timestamp: add RH non-trivial zeros locator table and Hardy refinement benchmark
+# Suggested tag
+rh-nontrivial-zero-locator-v0.1-2026-05-20
